@@ -3,7 +3,7 @@ export default function Cart({ cart, onRemove, onCheckout }) {
   const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
 
   // BUG #4: label says 10% but the multiplier is 0.20 (20%)
-  const tax = subtotal * 0.20;
+  const tax = subtotal * 0.10;
   const total = subtotal + tax;
 
   return (
