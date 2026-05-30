@@ -16,7 +16,12 @@ export default function App() {
   }
 
   function removeFromCart(id) {
-    setCart(cart.filter((item) => item.id === id));
+    const existing = cart.find(item => item.id === id);
+    if (existing.quantity > 1) {
+      setCart(cart.map(item => item.id === id ? { ...item, quantity: item.quantity - 1 } : item));
+    } else {
+      setCart(cart.filter(item => item.id !== id));
+    }
   }
 
   // BUG #6: cart.length counts duplicate entries, not unique items with quantities
