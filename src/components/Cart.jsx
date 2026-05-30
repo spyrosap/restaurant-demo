@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { coupons } from "../coupon-codes";
 
-export default function Cart({ cart, onRemove, onCheckout }) {
+export default function Cart({ cart, onRemove, onIncrement, onDecrement, onCheckout }) {
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const tax = subtotal * 0.20;
   const baseTotal = subtotal + tax;
@@ -68,8 +68,6 @@ export default function Cart({ cart, onRemove, onCheckout }) {
                   +
                 </button>
               </div>
-              <span className="cart-item-price">€{(item.price * item.quantity).toFixed(2)}</span>
-              <button className="remove-btn" onClick={() => onRemove(item.id)}>✕</button>
             </li>
           ))}
         </ul>
