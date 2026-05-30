@@ -16,7 +16,7 @@ export default function App() {
   }
 
   function removeFromCart(id) {
-    setCart(cart.filter((item) => item.id === id));
+    setCart(cart.filter((item) => item.id !== id));
   }
 
   // BUG #6: cart.length counts duplicate entries, not unique items with quantities
