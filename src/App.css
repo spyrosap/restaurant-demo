@@ -627,3 +627,296 @@ body {
   color: #9aaba0;
   margin-bottom: 8px;
 }
+
+/* ─── Brand link (header) ─────────────────────────────── */
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+/* ─── Loading / error states ──────────────────────────── */
+.load-state,
+.load-error {
+  font-size: 0.95rem;
+  color: #6b7c72;
+  padding: 8px 0;
+}
+.load-error { color: #c0392b; }
+
+/* ─── Restaurant list (marketplace home) ──────────────── */
+.restaurant-list {
+  flex: 1;
+  padding: 32px 40px;
+}
+
+.restaurant-list h2 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 24px;
+  color: #1a271f;
+}
+
+.restaurant-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.restaurant-card {
+  background: white;
+  border-radius: 8px;
+  padding: 18px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  border: 1px solid #ede9e4;
+  transition: box-shadow 0.2s, transform 0.2s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.restaurant-card:hover {
+  box-shadow: 0 4px 16px rgba(26, 39, 31, 0.10);
+  transform: translateY(-1px);
+}
+
+.restaurant-emoji {
+  font-size: 2.8rem;
+  flex-shrink: 0;
+}
+
+.restaurant-info h3 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #1a271f;
+  margin-bottom: 2px;
+}
+
+.restaurant-cuisine {
+  font-size: 0.85rem;
+  color: #6b7c72;
+  margin-bottom: 8px;
+}
+
+.restaurant-meta {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1a271f;
+  flex-wrap: wrap;
+}
+
+.restaurant-rating { color: #008f84; }
+.restaurant-dot { color: #c8d0cb; }
+
+/* ─── Restaurant menu page ────────────────────────────── */
+.menu-column {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.restaurant-header {
+  padding: 28px 40px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.restaurant-header .delivery-eta {
+  align-self: flex-start;
+}
+
+.restaurant-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #1a271f;
+}
+
+.back-link {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #00c1b2;
+  text-decoration: none;
+  align-self: flex-start;
+}
+.back-link:hover { text-decoration: underline; }
+
+.menu-column .menu {
+  padding-top: 20px;
+}
+
+/* ─── Order tracking ──────────────────────────────────── */
+.tracking {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 24px;
+}
+
+.tracking-card {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #ede9e4;
+  padding: 36px 40px;
+  width: 100%;
+  max-width: 560px;
+  text-align: center;
+  box-shadow: 0 4px 24px rgba(26, 39, 31, 0.06);
+}
+
+.tracking-emoji {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.tracking-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #1a271f;
+  margin-bottom: 4px;
+}
+
+.tracking-eta {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #008f84;
+  margin-bottom: 28px;
+}
+
+/* ─── Status stepper ──────────────────────────────────── */
+.stepper {
+  position: relative;
+  margin: 8px 0 32px;
+}
+
+.step-bar {
+  position: absolute;
+  top: 11px;
+  left: 11px;
+  right: 11px;
+  height: 3px;
+  background: #e8e4df;
+  border-radius: 999px;
+}
+
+.step-bar-fill {
+  height: 100%;
+  background: #00c1b2;
+  border-radius: 999px;
+  transition: width 0.6s ease;
+}
+
+.step-nodes {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+.step-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.step-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #e8e4df;
+  border: 2px solid #e8e4df;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: white;
+  transition: background 0.4s, border-color 0.4s;
+}
+
+.step-node.done .step-dot {
+  background: #00c1b2;
+  border-color: #00c1b2;
+}
+
+.step-node.active .step-dot {
+  background: #00c1b2;
+  border-color: #00c1b2;
+  box-shadow: 0 0 0 4px rgba(0, 193, 178, 0.18);
+  animation: eta-pulse 1.6s ease-in-out infinite;
+}
+
+.step-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #9aaba0;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.step-node.done .step-label,
+.step-node.active .step-label {
+  color: #1a271f;
+}
+
+/* ─── Tracking items + totals ─────────────────────────── */
+.tracking-items {
+  list-style: none;
+  text-align: left;
+  border-top: 1px solid #ede9e4;
+  padding-top: 16px;
+}
+
+.tracking-item-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 0.9rem;
+}
+
+.tracking-item-row .modal-item-name { flex: 1; }
+.tracking-item-row .modal-item-qty { color: #9aaba0; }
+
+.tracking-totals {
+  border-top: 1px solid #ede9e4;
+  margin-top: 8px;
+  padding-top: 14px;
+  text-align: left;
+}
+
+.tracking-totals-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  padding: 3px 0;
+  color: #6b7c72;
+}
+
+.tracking-totals-row.total {
+  font-weight: 800;
+  font-size: 1rem;
+  color: #1a271f;
+}
+
+.tracking-order-id {
+  font-size: 0.78rem;
+  color: #9aaba0;
+  margin: 18px 0 16px;
+}
+
+.tracking-home-btn {
+  display: inline-block;
+  text-decoration: none;
+  text-align: center;
+}
