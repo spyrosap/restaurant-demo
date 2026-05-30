@@ -1,8 +1,30 @@
-export default function Cart({ cart, onRemove, onIncrement, onDecrement, onCheckout }) {
-  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+import { useState } from "react";
+import { coupons } from "../coupon-codes";
 
+export default function Cart({ cart, onRemove, onCheckout }) {
+  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const tax = subtotal * 0.20;
-  const total = subtotal + tax;
+  const baseTotal = subtotal + tax;
+
+  const [couponInput, setCouponInput] = useState("");
+  const [appliedDiscount, setAppliedDiscount] = useState(null); // { code_name, discount }
+  const [couponError, setCouponError] = useState(false);
+
+  function handleApplyCoupon() {
+    const match = coupons.find(
+      (c) => c.code_name === couponInput.trim().toUpperCase()
+    );
+    if (match) {
+      setAppliedDiscount(match);
+      setCouponError(false);
+    } else {
+      setAppliedDiscount(null);
+      setCouponError(true);
+    }
+  }
+
+  const discountAmount = appliedDiscount ? baseTotal * appliedDiscount.discount : 0;
+  const total = baseTotal - discountAmount;
 
   return (
     <aside className="cart">
@@ -46,6 +68,8 @@ export default function Cart({ cart, onRemove, onIncrement, onDecrement, onCheck
                   +
                 </button>
               </div>
+              <span className="cart-item-price">€{(item.price * item.quantity).toFixed(2)}</span>
+              <button className="remove-btn" onClick={() => onRemove(item.id)}>✕</button>
             </li>
           ))}
         </ul>
@@ -60,10 +84,44 @@ export default function Cart({ cart, onRemove, onIncrement, onDecrement, onCheck
           <span>Tax (20%)</span>
           <span>€{tax.toFixed(2)}</span>
         </div>
+        {appliedDiscount && (
+          <div className="cart-totals-row coupon-discount">
+            <span>Coupon ({appliedDiscount.code_name})</span>
+            <span>-€{discountAmount.toFixed(2)}</span>
+          </div>
+        )}
         <div className="cart-totals-row total">
           <span>Total</span>
           <span>€{total.toFixed(2)}</span>
         </div>
+      </div>
+
+      <div className="coupon-section">
+        <label className="coupon-label">COUPON</label>
+        <div className="coupon-input-row">
+          <input
+            className={`coupon-input ${couponError ? "coupon-input--error" : ""}`}
+            type="text"
+            placeholder="Enter coupon code"
+            value={couponInput}
+            onChange={(e) => {
+              setCouponInput(e.target.value);
+              setCouponError(false);
+              if (appliedDiscount) setAppliedDiscount(null);
+            }}
+          />
+          <button className="coupon-apply-btn" onClick={handleApplyCoupon}>
+            Apply
+          </button>
+        </div>
+        {couponError && (
+          <p className="coupon-error">Invalid coupon</p>
+        )}
+        {appliedDiscount && (
+          <p className="coupon-success">
+            ✓ {appliedDiscount.code_name} applied — {(appliedDiscount.discount * 100).toFixed(0)}% off
+          </p>
+        )}
       </div>
 
       <button

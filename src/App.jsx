@@ -13,11 +13,7 @@ export default function App() {
   function addToCart(dish) {
     const existing = cart.find((item) => item.id === dish.id);
     if (existing) {
-      setCart(
-        cart.map((item) =>
-          item.id === dish.id ? { ...item, quantity: item.quantity + 1 } : item
-        )
-      );
+      setCart(cart.map((item) => item.id === dish.id ? { ...item, quantity: item.quantity + 1 } : item));
     } else {
       setCart([...cart, { ...dish, quantity: 1 }]);
     }
