@@ -23,8 +23,7 @@ export default function App() {
     setCart(cart.filter((item) => item.id !== id));
   }
 
-  // BUG #6: cart.length counts duplicate entries, not unique items with quantities
-  const cartCount = cart.length;
+  const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <div className="app">
