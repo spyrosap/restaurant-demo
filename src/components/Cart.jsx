@@ -14,8 +14,8 @@ export default function Cart({ cart, onRemove, onCheckout }) {
         <p className="cart-empty">No items yet.</p>
       ) : (
         <ul className="cart-list">
-          {cart.map((item, index) => (
-            <li key={index} className="cart-item">
+          {cart.map((item) => (
+            <li key={item.id} className="cart-item">
               <span className="cart-item-emoji">{item.emoji}</span>
               <div className="cart-item-details">
                 <span className="cart-item-name">{item.name}</span>
