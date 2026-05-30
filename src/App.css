@@ -342,6 +342,80 @@ body {
   border-top: 1px solid #ede9e4;
 }
 
+/* ─── Coupon ──────────────────────────────────────────── */
+.coupon-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.coupon-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #6b7c71;
+  text-transform: uppercase;
+}
+
+.coupon-input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.coupon-input {
+  flex: 1;
+  padding: 9px 12px;
+  border: 1.5px solid #d8d4cf;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-family: inherit;
+  color: #1a271f;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.coupon-input:focus {
+  border-color: #00c1b2;
+}
+
+.coupon-input--error {
+  border-color: #e03030;
+}
+
+.coupon-apply-btn {
+  padding: 9px 16px;
+  background: #1a271f;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.coupon-apply-btn:hover {
+  background: #2e3d33;
+}
+
+.coupon-error {
+  font-size: 0.78rem;
+  color: #e03030;
+  font-weight: 600;
+}
+
+.coupon-success {
+  font-size: 0.78rem;
+  color: #008f84;
+  font-weight: 600;
+}
+
+.cart-totals-row.coupon-discount {
+  color: #008f84;
+  font-weight: 700;
+}
+
 .checkout-btn {
   width: 100%;
   padding: 15px;
