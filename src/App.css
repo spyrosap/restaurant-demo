@@ -565,6 +565,11 @@ body {
   font-weight: 500;
 }
 
+.modal-totals-discount {
+  color: #16a34a;
+  font-weight: 500;
+}
+
 .modal-totals-total {
   font-size: 1rem;
   font-weight: 800;

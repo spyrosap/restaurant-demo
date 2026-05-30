@@ -4,10 +4,20 @@ function generateOrderNumber() {
   return "DL-" + Math.floor(10000 + Math.random() * 90000);
 }
 
+const FIRST_ORDER_DISCOUNT_RATE = 0.10;
+
 export default function PaymentModal({ cart, onClose, onSuccess }) {
-  const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
-  const tax = subtotal * 0.2;
-  const total = subtotal + tax;
+  const [isFirstOrder] = useState(() => {
+    try { return localStorage.getItem('hasOrdered') !== 'true'; }
+    catch { return false; }
+  });
+
+  const round = (n) => Math.round(n * 100) / 100;
+  const subtotal = round(cart.reduce((sum, item) => sum + item.price * item.quantity, 0));
+  const discountAmount = isFirstOrder ? round(subtotal * FIRST_ORDER_DISCOUNT_RATE) : 0;
+  const discountedSubtotal = round(subtotal - discountAmount);
+  const tax = round(discountedSubtotal * 0.2);
+  const total = round(discountedSubtotal + tax);
 
   const [step, setStep] = useState("summary");
   const [orderNumber] = useState(generateOrderNumber);
@@ -16,9 +26,14 @@ export default function PaymentModal({ cart, onClose, onSuccess }) {
 
   useEffect(() => {
     if (step !== "processing") return;
-    const timer = setTimeout(() => setStep("success"), 2000);
+    const timer = setTimeout(() => {
+      if (isFirstOrder) {
+        try { localStorage.setItem('hasOrdered', 'true'); } catch { /* ignore */ }
+      }
+      setStep("success");
+    }, 2000);
     return () => clearTimeout(timer);
-  }, [step]);
+  }, [step, isFirstOrder]);
 
   function handleOverlayClick() {
     if (step !== "processing") onClose();
@@ -71,6 +86,12 @@ export default function PaymentModal({ cart, onClose, onSuccess }) {
               <div className="modal-totals-row">
                 <span>Subtotal</span><span>€{subtotal.toFixed(2)}</span>
               </div>
+              {isFirstOrder && (
+                <div className="modal-totals-row modal-totals-discount">
+                  <span>🎉 First Order Discount (10%)</span>
+                  <span>-€{discountAmount.toFixed(2)}</span>
+                </div>
+              )}
               <div className="modal-totals-row">
                 <span>Tax (20%)</span><span>€{tax.toFixed(2)}</span>
               </div>
@@ -175,6 +196,12 @@ export default function PaymentModal({ cart, onClose, onSuccess }) {
               ))}
             </ul>
             <div className="modal-totals">
+              {isFirstOrder && (
+                <div className="modal-totals-row modal-totals-discount">
+                  <span>🎉 First Order Discount (10%)</span>
+                  <span>-€{discountAmount.toFixed(2)}</span>
+                </div>
+              )}
               <div className="modal-totals-row modal-totals-total">
                 <span>Total paid</span><span>€{total.toFixed(2)}</span>
               </div>
