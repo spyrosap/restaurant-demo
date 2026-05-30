@@ -11,16 +11,19 @@ export default function App() {
   const [showPayment, setShowPayment] = useState(false);
 
   function addToCart(dish) {
-    // BUG #5: always adds a new entry — should check if dish is already in cart and increment quantity
-    setCart([...cart, { ...dish, quantity: 1 }]);
+    const existing = cart.find((item) => item.id === dish.id);
+    if (existing) {
+      setCart(cart.map((item) => item.id === dish.id ? { ...item, quantity: item.quantity + 1 } : item));
+    } else {
+      setCart([...cart, { ...dish, quantity: 1 }]);
+    }
   }
 
   function removeFromCart(id) {
-    setCart(cart.filter((item) => item.id === id));
+    setCart(cart.filter((item) => item.id !== id));
   }
 
-  // BUG #6: cart.length counts duplicate entries, not unique items with quantities
-  const cartCount = cart.length;
+  const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <div className="app">
