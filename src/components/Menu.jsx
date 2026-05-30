@@ -2,7 +2,9 @@ const CATEGORIES = ["All", "Starters", "Mains", "Desserts"];
 
 export default function Menu({ dishes, selectedCategory, onCategoryChange, onAddToCart }) {
   // BUG #3: filteredDishes should filter by selectedCategory, but it's just assigned dishes directly
-  const filteredDishes = dishes;
+  const filteredDishes = selectedCategory === "All"
+    ? dishes
+    : dishes.filter((d) => d.category === selectedCategory);
 
   return (
     <section className="menu">
