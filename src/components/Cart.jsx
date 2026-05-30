@@ -1,6 +1,5 @@
 export default function Cart({ cart, onRemove, onCheckout }) {
-  // BUG #1: subtotal ignores quantity — should be item.price * item.quantity
-  const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   // BUG #4: label says 10% but the multiplier is 0.20 (20%)
   const tax = subtotal * 0.20;
