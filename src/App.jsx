@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { dishes, deliveryInfo } from "./data";
+import { currentUserId, dishes, deliveryInfo } from "./data";
 import Menu from "./components/Menu";
 import Cart from "./components/Cart";
 import PaymentModal from "./components/PaymentModal";
 import Suggestions from "./components/Suggestions";
+import { track } from "./analytics";
 import "./App.css";
 
 export default function App() {
@@ -62,7 +63,20 @@ export default function App() {
         <PaymentModal
           cart={cart}
           onClose={() => setShowPayment(false)}
-          onSuccess={() => { setCart([]); setShowPayment(false); }}
+          onSuccess={(orderId) => {
+            const suggestedItems = cart.filter((item) => item.fromSuggestion);
+            if (suggestedItems.length > 0) {
+              // Spec's tracking property is a singular restaurant_id; this MVP
+              // reports the first suggestion-originated dish in the order.
+              track("meal_suggestion_order_placed", {
+                user_id: currentUserId,
+                restaurant_id: suggestedItems[0].id,
+                order_id: orderId,
+              });
+            }
+            setCart([]);
+            setShowPayment(false);
+          }}
         />
       )}
     </div>

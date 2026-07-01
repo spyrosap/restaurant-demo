@@ -1,6 +1,7 @@
-import { useMemo } from "react";
-import { lastOrder, trendingDishIds } from "../data";
+import { useEffect, useMemo, useRef } from "react";
+import { currentUserId, lastOrder, trendingDishIds } from "../data";
 import { getSuggestions } from "../suggestions";
+import { track } from "../analytics";
 
 export default function Suggestions({ dishes, onAddToCart }) {
   const result = useMemo(() => {
@@ -11,6 +12,31 @@ export default function Suggestions({ dishes, onAddToCart }) {
       return null;
     }
   }, [dishes]);
+
+  const clickedPositions = useRef(new Set());
+
+  useEffect(() => {
+    clickedPositions.current = new Set();
+    if (!result || result.items.length === 0) return;
+    track("meal_suggestion_impression", {
+      user_id: currentUserId,
+      suggestion_type: result.suggestionType,
+      restaurant_ids: result.items.map((item) => item.dish.id),
+    });
+  }, [result]);
+
+  function handleAddToCart(dish, type, position) {
+    if (!clickedPositions.current.has(position)) {
+      clickedPositions.current.add(position);
+      track("meal_suggestion_click", {
+        user_id: currentUserId,
+        restaurant_id: dish.id,
+        position,
+        suggestion_type: type,
+      });
+    }
+    onAddToCart(dish);
+  }
 
   if (!result || result.items.length === 0) return null;
 
@@ -26,7 +52,7 @@ export default function Suggestions({ dishes, onAddToCart }) {
         {subtitle && <p className="suggestions-subtitle">{subtitle}</p>}
       </div>
       <div className="suggestions-grid">
-        {result.items.map((item) => (
+        {result.items.map((item, position) => (
           <div key={item.dish.id} className="suggestion-card">
             <span
               className={`suggestion-badge ${
@@ -42,7 +68,7 @@ export default function Suggestions({ dishes, onAddToCart }) {
               <span className="suggestion-price">€{item.dish.price.toFixed(2)}</span>
               <button
                 className="suggestion-add-btn"
-                onClick={() => onAddToCart(item.dish)}
+                onClick={() => handleAddToCart(item.dish, item.type, position)}
                 aria-label={`Add ${item.dish.name} to cart`}
               >
                 +

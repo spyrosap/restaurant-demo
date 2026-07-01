@@ -179,7 +179,7 @@ export default function PaymentModal({ cart, onClose, onSuccess }) {
                 <span>Total paid</span><span>€{total.toFixed(2)}</span>
               </div>
             </div>
-            <button className="modal-btn-primary modal-btn-full" onClick={onSuccess}>
+            <button className="modal-btn-primary modal-btn-full" onClick={() => onSuccess(orderNumber)}>
               Start New Order
             </button>
           </div>
