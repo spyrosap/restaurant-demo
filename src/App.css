@@ -75,6 +75,17 @@ body {
   line-height: 1;
 }
 
+.cart-icon {
+  display: inline-block;
+  animation: cart-icon-pulse 0.4s ease;
+}
+
+@keyframes cart-icon-pulse {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+
 .cart-badge {
   position: absolute;
   top: -6px;
@@ -89,6 +100,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: cart-badge-pop 0.4s ease;
+}
+
+@keyframes cart-badge-pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.5); }
+  100% { transform: scale(1); }
 }
 
 /* ─── Layout ──────────────────────────────────────────── */
@@ -264,6 +282,18 @@ body {
 
 .cart-item {
   display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #f2efeb;
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.cart-item-row {
+  display: flex;
   align-items: center;
   gap: 10px;
 }
@@ -277,7 +307,7 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 4px;
 }
 
 .cart-item-name {
@@ -299,12 +329,54 @@ body {
   flex-shrink: 0;
 }
 
+.cart-item-stepper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stepper-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  border: 1.5px solid #d8d4cf;
+  background: white;
+  color: #1a271f;
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.stepper-btn:hover:not(:disabled) {
+  border-color: #00c1b2;
+  color: #00c1b2;
+}
+
+.stepper-btn:disabled {
+  color: #d8d4cf;
+  border-color: #ede9e4;
+  cursor: not-allowed;
+}
+
+.stepper-value {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #1a271f;
+  min-width: 14px;
+  text-align: center;
+}
+
 .remove-btn {
   background: none;
   border: none;
   color: #c8c4bf;
   cursor: pointer;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   padding: 2px 4px;
   border-radius: 4px;
   transition: color 0.15s;
@@ -314,6 +386,254 @@ body {
 
 .remove-btn:hover {
   color: #e03030;
+}
+
+.cart-item-guest {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6b7c71;
+  padding-left: 42px;
+}
+
+.cart-item-guest select {
+  flex: 1;
+  padding: 4px 6px;
+  border: 1.5px solid #d8d4cf;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-family: inherit;
+  color: #1a271f;
+  background: white;
+}
+
+/* ─── Guest manager ───────────────────────────────────── */
+.guest-manager {
+  border-bottom: 1px solid #ede9e4;
+  padding-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.guest-manager-title {
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: #6b7c71;
+}
+
+.guest-chip-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.guest-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #e6faf8;
+  border: 1px solid #b8ebe5;
+  border-radius: 999px;
+  padding: 5px 6px 5px 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #008f84;
+}
+
+.guest-chip-remove {
+  background: rgba(0, 143, 132, 0.15);
+  border: none;
+  color: #008f84;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  font-size: 0.85rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.guest-chip-remove:hover {
+  background: rgba(224, 48, 48, 0.15);
+  color: #e03030;
+}
+
+.guest-add-form {
+  display: flex;
+  gap: 8px;
+}
+
+.guest-add-input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1.5px solid #d8d4cf;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.guest-add-input:focus {
+  border-color: #00c1b2;
+}
+
+.guest-add-btn {
+  padding: 8px 14px;
+  background: white;
+  border: 1.5px solid #00c1b2;
+  color: #00c1b2;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+
+.guest-add-btn:hover:not(:disabled) {
+  background: #00c1b2;
+  color: white;
+}
+
+.guest-add-btn:disabled {
+  border-color: #d8d4cf;
+  color: #d8d4cf;
+  cursor: not-allowed;
+}
+
+/* ─── Payment mode toggle ─────────────────────────────── */
+.payment-mode-toggle {
+  display: flex;
+  gap: 6px;
+  padding: 4px;
+  background: #f2efeb;
+  border-radius: 6px;
+}
+
+.payment-mode-btn {
+  flex: 1;
+  padding: 8px 6px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #6b7c71;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.payment-mode-btn.active {
+  background: white;
+  color: #00c1b2;
+  box-shadow: 0 1px 4px rgba(26, 39, 31, 0.12);
+}
+
+/* ─── Empty guest alert ───────────────────────────────── */
+.empty-guest-alert {
+  background: #fff4e5;
+  border: 1px solid #f5c78a;
+  color: #8a5a12;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 10px 12px;
+  border-radius: 6px;
+}
+
+/* ─── Undo toast ──────────────────────────────────────── */
+.undo-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a271f;
+  color: white;
+  padding: 14px 18px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 8px 24px rgba(26, 39, 31, 0.3);
+  z-index: 200;
+  overflow: hidden;
+}
+
+.undo-toast-message {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.undo-toast-btn {
+  background: none;
+  border: none;
+  color: #4de8db;
+  font-weight: 800;
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+
+.undo-toast-btn:hover {
+  text-decoration: underline;
+}
+
+.undo-toast-progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.undo-toast-progress-bar {
+  height: 100%;
+  background: #00c1b2;
+  animation: undo-progress 3s linear forwards;
+}
+
+@keyframes undo-progress {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+/* ─── Guest breakdown (payment modal) ─────────────────── */
+.guest-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.guest-breakdown-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.guest-breakdown-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #008f84;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #e6faf8;
+}
+
+.guest-breakdown-group .modal-item-list {
+  margin-bottom: 0;
 }
 
 /* ─── Cart totals ─────────────────────────────────────── */

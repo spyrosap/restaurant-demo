@@ -4,10 +4,29 @@ function generateOrderNumber() {
   return "DL-" + Math.floor(10000 + Math.random() * 90000);
 }
 
-export default function PaymentModal({ cart, onClose, onSuccess }) {
+function buildGuestBreakdown(cart, guests) {
+  const groups = guests.map((guest) => {
+    const items = cart.filter((item) => item.guestId === guest.id);
+    const guestSubtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    return { id: guest.id, name: guest.name, items, total: guestSubtotal * 1.2 };
+  });
+  const unassignedItems = cart.filter((item) => item.guestId == null);
+  if (unassignedItems.length > 0) {
+    const unassignedSubtotal = unassignedItems.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
+    groups.push({ id: "unassigned", name: "Non assigné", items: unassignedItems, total: unassignedSubtotal * 1.2 });
+  }
+  return groups;
+}
+
+export default function PaymentModal({ cart, guests, paymentMode, onClose, onSuccess }) {
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const tax = subtotal * 0.2;
   const total = subtotal + tax;
+  const isSplit = paymentMode === "split";
+  const guestBreakdown = isSplit ? buildGuestBreakdown(cart, guests) : [];
 
   const [step, setStep] = useState("summary");
   const [orderNumber] = useState(generateOrderNumber);
@@ -57,16 +76,39 @@ export default function PaymentModal({ cart, onClose, onSuccess }) {
         {step === "summary" && (
           <div className="modal-step">
             <h2 className="modal-title">Order Summary</h2>
-            <ul className="modal-item-list">
-              {cart.map((item) => (
-                <li key={item.id} className="modal-item-row">
-                  <span className="modal-item-emoji">{item.emoji}</span>
-                  <span className="modal-item-name">{item.name}</span>
-                  <span className="modal-item-qty">x{item.quantity}</span>
-                  <span className="modal-item-price">€{(item.price * item.quantity).toFixed(2)}</span>
-                </li>
-              ))}
-            </ul>
+            {isSplit ? (
+              <div className="guest-breakdown">
+                {guestBreakdown.map((group) => (
+                  <div key={group.id} className="guest-breakdown-group">
+                    <div className="guest-breakdown-header">
+                      <span>{group.name}</span>
+                      <span>€{group.total.toFixed(2)}</span>
+                    </div>
+                    <ul className="modal-item-list">
+                      {group.items.map((item) => (
+                        <li key={item.id} className="modal-item-row">
+                          <span className="modal-item-emoji">{item.emoji}</span>
+                          <span className="modal-item-name">{item.name}</span>
+                          <span className="modal-item-qty">x{item.quantity}</span>
+                          <span className="modal-item-price">€{(item.price * item.quantity).toFixed(2)}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <ul className="modal-item-list">
+                {cart.map((item) => (
+                  <li key={item.id} className="modal-item-row">
+                    <span className="modal-item-emoji">{item.emoji}</span>
+                    <span className="modal-item-name">{item.name}</span>
+                    <span className="modal-item-qty">x{item.quantity}</span>
+                    <span className="modal-item-price">€{(item.price * item.quantity).toFixed(2)}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
             <div className="modal-totals">
               <div className="modal-totals-row">
                 <span>Subtotal</span><span>€{subtotal.toFixed(2)}</span>
