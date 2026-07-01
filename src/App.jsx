@@ -1,20 +1,38 @@
-import { useState, useRef } from "react";
+import { useRef, useState } from "react";
 import { dishes, deliveryInfo } from "./data";
 import Menu from "./components/Menu";
 import Cart from "./components/Cart";
 import PaymentModal from "./components/PaymentModal";
+import OrderTracking from "./components/OrderTracking";
 import ConciergeBar from "./components/ConciergeBar";
 import UndoToast from "./components/UndoToast";
 import { track } from "./analytics";
 import "./App.css";
 
+const ORDER_TRACKING_STORAGE_KEY = "orderTracking";
+
 let guestIdCounter = 1;
 let removalIdCounter = 1;
+
+function readStoredOrder() {
+  try {
+    const raw = sessionStorage.getItem(ORDER_TRACKING_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed.startedAt === "number") return parsed;
+    }
+  } catch {
+    // sessionStorage unavailable — treat as no stored order
+  }
+  return null;
+}
 
 export default function App() {
   const [cart, setCart] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [showPayment, setShowPayment] = useState(false);
+  const [order, setOrder] = useState(readStoredOrder);
+  const [screen, setScreen] = useState(() => (readStoredOrder() ? "tracking" : "menu"));
   const [guests, setGuests] = useState([]);
   const [paymentMode, setPaymentMode] = useState("single");
   const [pendingRemoval, setPendingRemoval] = useState(null);
@@ -144,40 +162,70 @@ export default function App() {
         </div>
       </header>
 
-      <ConciergeBar onFillCart={fillCart} />
+      {screen === "menu" && (
+        <>
+          <ConciergeBar onFillCart={fillCart} />
 
-      <main className="app-main">
-        <Menu
-          dishes={dishes}
-          selectedCategory={selectedCategory}
-          onCategoryChange={setSelectedCategory}
-          onAddToCart={addToCart}
-        />
-        <Cart
-          cart={cart}
-          guests={guests}
-          canGroupOrder={canGroupOrder}
-          paymentMode={effectivePaymentMode}
-          onPaymentModeChange={changePaymentMode}
-          onIncrement={(id) => changeQuantity(id, "inc")}
-          onDecrement={(id) => changeQuantity(id, "dec")}
-          onRequestRemove={requestRemoveFromCart}
-          onAssignGuest={assignGuest}
-          onAddGuest={addGuest}
-          onRemoveGuest={removeGuest}
-          onCheckout={() => setShowPayment(true)}
-        />
-      </main>
+          <main className="app-main">
+            <Menu
+              dishes={dishes}
+              selectedCategory={selectedCategory}
+              onCategoryChange={setSelectedCategory}
+              onAddToCart={addToCart}
+            />
+            <Cart
+              cart={cart}
+              guests={guests}
+              canGroupOrder={canGroupOrder}
+              paymentMode={effectivePaymentMode}
+              onPaymentModeChange={changePaymentMode}
+              onIncrement={(id) => changeQuantity(id, "inc")}
+              onDecrement={(id) => changeQuantity(id, "dec")}
+              onRequestRemove={requestRemoveFromCart}
+              onAssignGuest={assignGuest}
+              onAddGuest={addGuest}
+              onRemoveGuest={removeGuest}
+              onCheckout={() => setShowPayment(true)}
+            />
+          </main>
 
-      <UndoToast pendingRemoval={pendingRemoval} onUndo={undoRemove} />
+          <UndoToast pendingRemoval={pendingRemoval} onUndo={undoRemove} />
 
-      {showPayment && (
-        <PaymentModal
-          cart={cart}
-          guests={guests}
-          paymentMode={effectivePaymentMode}
-          onClose={() => setShowPayment(false)}
-          onSuccess={() => { setCart([]); setShowPayment(false); }}
+          {showPayment && (
+            <PaymentModal
+              cart={cart}
+              guests={guests}
+              paymentMode={effectivePaymentMode}
+              onClose={() => setShowPayment(false)}
+              onTrackOrder={(orderData) => {
+                const record = { ...orderData, startedAt: Date.now() };
+                try {
+                  sessionStorage.setItem(ORDER_TRACKING_STORAGE_KEY, JSON.stringify(record));
+                } catch {
+                  // storage blocked — tracking still works in-memory, just won't survive a reload
+                }
+                setOrder(record);
+                setCart([]);
+                setShowPayment(false);
+                setScreen("tracking");
+              }}
+            />
+          )}
+        </>
+      )}
+
+      {screen === "tracking" && order && (
+        <OrderTracking
+          order={order}
+          onDone={() => {
+            try {
+              sessionStorage.removeItem(ORDER_TRACKING_STORAGE_KEY);
+            } catch {
+              // ignore
+            }
+            setOrder(null);
+            setScreen("menu");
+          }}
         />
       )}
     </div>
