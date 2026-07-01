@@ -642,3 +642,116 @@ body {
     height: auto;
   }
 }
+
+/* ─── Suggestions ("Pour vous") ────────────────────────── */
+.suggestions-section {
+  padding: 24px 40px;
+  background: #ffffff;
+  border-bottom: 1px solid #e8e4df;
+}
+
+.suggestions-header {
+  margin-bottom: 16px;
+}
+
+.suggestions-header h2 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #1a271f;
+  letter-spacing: -0.3px;
+}
+
+.suggestions-subtitle {
+  font-size: 0.8rem;
+  color: #6b7c71;
+  margin-top: 4px;
+}
+
+.suggestions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.suggestion-card {
+  position: relative;
+  background: white;
+  border: 1px solid #ede9e4;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.suggestion-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+.suggestion-badge--perso {
+  background: #e6faf8;
+  color: #008f84;
+}
+
+.suggestion-badge--trending {
+  background: #eef0ee;
+  color: #5f5e5a;
+}
+
+.suggestion-emoji {
+  font-size: 2.2rem;
+  margin-bottom: 4px;
+}
+
+.suggestion-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1a271f;
+}
+
+.suggestion-category {
+  font-size: 0.75rem;
+  color: #9aaba0;
+}
+
+.suggestion-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.suggestion-price {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #1a271f;
+}
+
+.suggestion-add-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #00c1b2;
+  color: white;
+  border: none;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.suggestion-add-btn:hover {
+  background: #00a99c;
+}
+
+.suggestion-add-btn:active {
+  background: #008f84;
+}

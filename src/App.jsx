@@ -3,6 +3,7 @@ import { dishes, deliveryInfo } from "./data";
 import Menu from "./components/Menu";
 import Cart from "./components/Cart";
 import PaymentModal from "./components/PaymentModal";
+import Suggestions from "./components/Suggestions";
 import "./App.css";
 
 export default function App() {
@@ -10,7 +11,7 @@ export default function App() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [showPayment, setShowPayment] = useState(false);
 
-  function addToCart(dish) {
+  function addToCart(dish, options = {}) {
     setCart((prev) => {
       const existing = prev.find((item) => item.id === dish.id);
       if (existing) {
@@ -18,7 +19,7 @@ export default function App() {
           item.id === dish.id ? { ...item, quantity: item.quantity + 1 } : item
         );
       }
-      return [...prev, { ...dish, quantity: 1 }];
+      return [...prev, { ...dish, quantity: 1, fromSuggestion: !!options.fromSuggestion }];
     });
   }
 
@@ -45,6 +46,8 @@ export default function App() {
           {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
         </div>
       </header>
+
+      <Suggestions dishes={dishes} onAddToCart={(dish) => addToCart(dish, { fromSuggestion: true })} />
 
       <main className="app-main">
         <Menu
