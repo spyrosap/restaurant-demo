@@ -39,6 +39,12 @@ jobs:
 
       - uses: anthropics/claude-code-action@v1
         with:
+          # Force tag mode so a tracking comment is created and the review
+          # is actually posted. Without this, supplying a custom `prompt` on
+          # an issue_comment event puts the action in agent mode, which never
+          # creates a comment to deliver the review to.
+          track_progress: true
+
           # --- Authentication (pick ONE) ---
 
           # Option A: Pro/Max subscription (OAuth — no API costs)
