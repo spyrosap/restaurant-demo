@@ -1,7 +1,7 @@
 export default function Cart({ cart, onRemove, onCheckout }) {
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  const tax = subtotal * 0.20;
+  const tax = subtotal * 0.10;
   const total = subtotal + tax;
 
   return (
@@ -12,7 +12,7 @@ export default function Cart({ cart, onRemove, onCheckout }) {
         <p className="cart-empty">No items yet.</p>
       ) : (
         <ul className="cart-list">
-          {cart.map((item) => (
+          {cart.map((item, index) => (
             <li key={item.id} className="cart-item">
               <span className="cart-item-emoji">{item.emoji}</span>
               <div className="cart-item-details">
@@ -32,7 +32,7 @@ export default function Cart({ cart, onRemove, onCheckout }) {
           <span>€{subtotal.toFixed(2)}</span>
         </div>
         <div className="cart-totals-row">
-          <span>Tax (20%)</span>
+          <span>Tax (10%)</span>
           <span>€{tax.toFixed(2)}</span>
         </div>
         <div className="cart-totals-row total">

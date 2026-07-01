@@ -6,7 +6,7 @@ function generateOrderNumber() {
 
 export default function PaymentModal({ cart, onClose, onSuccess }) {
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const tax = subtotal * 0.2;
+  const tax = subtotal * 0.10;
   const total = subtotal + tax;
 
   const [step, setStep] = useState("summary");
@@ -58,8 +58,8 @@ export default function PaymentModal({ cart, onClose, onSuccess }) {
           <div className="modal-step">
             <h2 className="modal-title">Order Summary</h2>
             <ul className="modal-item-list">
-              {cart.map((item) => (
-                <li key={item.id} className="modal-item-row">
+              {cart.map((item, i) => (
+                <li key={i} className="modal-item-row">
                   <span className="modal-item-emoji">{item.emoji}</span>
                   <span className="modal-item-name">{item.name}</span>
                   <span className="modal-item-qty">x{item.quantity}</span>
@@ -72,7 +72,7 @@ export default function PaymentModal({ cart, onClose, onSuccess }) {
                 <span>Subtotal</span><span>€{subtotal.toFixed(2)}</span>
               </div>
               <div className="modal-totals-row">
-                <span>Tax (20%)</span><span>€{tax.toFixed(2)}</span>
+                <span>Tax (10%)</span><span>€{tax.toFixed(2)}</span>
               </div>
               <div className="modal-totals-row modal-totals-total">
                 <span>Total</span><span>€{total.toFixed(2)}</span>
@@ -165,8 +165,8 @@ export default function PaymentModal({ cart, onClose, onSuccess }) {
             <h2 className="success-title">Payment Successful!</h2>
             <p className="success-meta">Order {orderNumber} · {formattedTime}</p>
             <ul className="modal-item-list modal-item-list--receipt">
-              {cart.map((item) => (
-                <li key={item.id} className="modal-item-row">
+              {cart.map((item, i) => (
+                <li key={i} className="modal-item-row">
                   <span className="modal-item-emoji">{item.emoji}</span>
                   <span className="modal-item-name">{item.name}</span>
                   <span className="modal-item-qty">x{item.quantity}</span>

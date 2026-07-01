@@ -1,10 +1,9 @@
-const CATEGORIES = ["All", "Starters", "Mains", "Desserts"];
+const CATEGORIES = ["All", "Starters", "Mains", "Sides", "Drinks", "Desserts"];
 
 export default function Menu({ dishes, selectedCategory, onCategoryChange, onAddToCart }) {
-  const filteredDishes =
-    selectedCategory === "All"
-      ? dishes
-      : dishes.filter((dish) => dish.category === selectedCategory);
+  const filteredDishes = selectedCategory === "All"
+    ? dishes
+    : dishes.filter((dish) => dish.category === selectedCategory);
 
   return (
     <section className="menu">

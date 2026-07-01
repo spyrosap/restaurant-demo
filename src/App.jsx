@@ -3,6 +3,7 @@ import { currentUserId, dishes, deliveryInfo } from "./data";
 import Menu from "./components/Menu";
 import Cart from "./components/Cart";
 import PaymentModal from "./components/PaymentModal";
+import ConciergeBar from "./components/ConciergeBar";
 import Suggestions from "./components/Suggestions";
 import { track } from "./analytics";
 import "./App.css";
@@ -13,22 +14,23 @@ export default function App() {
   const [showPayment, setShowPayment] = useState(false);
 
   function addToCart(dish, options = {}) {
-    setCart((prev) => {
-      const existing = prev.find((item) => item.id === dish.id);
-      if (existing) {
-        return prev.map((item) =>
-          item.id === dish.id ? { ...item, quantity: item.quantity + 1 } : item
-        );
-      }
-      return [...prev, { ...dish, quantity: 1, fromSuggestion: !!options.fromSuggestion }];
-    });
+    const existing = cart.find((item) => item.id === dish.id);
+    if (existing) {
+      setCart(cart.map((item) => item.id === dish.id ? { ...item, quantity: item.quantity + 1 } : item));
+    } else {
+      setCart([...cart, { ...dish, quantity: 1, fromSuggestion: !!options.fromSuggestion }]);
+    }
   }
 
   function removeFromCart(id) {
     setCart(cart.filter((item) => item.id !== id));
   }
 
-  const cartCount = cart.length;
+  function fillCart(items) {
+    setCart(items);
+  }
+
+  const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <div className="app">
@@ -47,6 +49,8 @@ export default function App() {
           {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
         </div>
       </header>
+
+      <ConciergeBar onFillCart={fillCart} />
 
       <Suggestions dishes={dishes} onAddToCart={(dish) => addToCart(dish, { fromSuggestion: true })} />
 
