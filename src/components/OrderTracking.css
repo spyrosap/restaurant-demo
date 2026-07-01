@@ -1,0 +1,161 @@
+.tracking-screen {
+  max-width: 480px;
+  margin: 32px auto;
+  padding: 32px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(26, 39, 31, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.tracking-order-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6b7c71;
+}
+
+.tracking-eta {
+  padding: 14px 20px;
+}
+
+.tracking-eta .eta-dot {
+  width: 8px;
+  height: 8px;
+}
+
+.tracking-eta-value {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #008f84;
+  letter-spacing: -0.3px;
+}
+
+.tracking-map {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e8e4df;
+}
+
+.tracking-map-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.tracking-map-marker,
+.tracking-map-pin {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.tracking-map-pin {
+  font-size: 1.6rem;
+  transition: top 0.4s linear, left 0.4s linear;
+  filter: drop-shadow(0 2px 3px rgba(26, 39, 31, 0.3));
+}
+
+.tracking-confirming {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.tracking-timeline {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.tracking-step {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+  padding-bottom: 22px;
+}
+
+.tracking-step:last-child {
+  padding-bottom: 0;
+}
+
+.tracking-step::before {
+  content: "";
+  position: absolute;
+  left: 11px;
+  top: 24px;
+  bottom: 0;
+  width: 2px;
+  background: #e8e4df;
+  transition: background-color 0.3s ease;
+}
+
+.tracking-step:last-child::before {
+  display: none;
+}
+
+.tracking-step--completed::before {
+  background: #00c1b2;
+}
+
+.tracking-step-marker {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid #e8e4df;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: white;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+  z-index: 1;
+}
+
+.tracking-step--completed .tracking-step-marker {
+  background: #00c1b2;
+  border-color: #00c1b2;
+}
+
+.tracking-step--active .tracking-step-marker {
+  border-color: #00c1b2;
+  box-shadow: 0 0 0 4px rgba(0, 193, 178, 0.25);
+  animation: eta-pulse 1.8s ease-in-out infinite;
+}
+
+.tracking-step--upcoming .tracking-step-marker {
+  border-color: #e8e4df;
+}
+
+.tracking-step-label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #9aaba0;
+  transition: color 0.3s ease;
+}
+
+.tracking-step--completed .tracking-step-label,
+.tracking-step--active .tracking-step-label {
+  color: #1a271f;
+}
+
+.tracking-message {
+  font-size: 0.875rem;
+  color: #6b7c71;
+  font-weight: 500;
+  text-align: center;
+}
