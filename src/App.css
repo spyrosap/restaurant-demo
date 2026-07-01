@@ -143,6 +143,120 @@ body {
   border-color: #00c1b2;
 }
 
+/* ─── Search ──────────────────────────────────────────── */
+.search-bar {
+  position: relative;
+  margin-bottom: 20px;
+  max-width: 420px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 36px 10px 14px;
+  border: 1.5px solid #d8d4cf;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: #1a271f;
+  background: white;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.search-input::placeholder {
+  color: #9aaba0;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #00c1b2;
+  box-shadow: 0 0 0 3px rgba(0, 193, 178, 0.15);
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #9aaba0;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.search-clear-btn:hover {
+  color: #6b7c71;
+}
+
+/* ─── Diet filters ────────────────────────────────────── */
+.diet-filters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.diet-filters-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6b7c71;
+  margin-right: 4px;
+}
+
+/* ─── Diet badges (on dish cards) ─────────────────────── */
+.diet-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 2px;
+}
+
+.diet-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 9px;
+  background: #e6faf8;
+  border: 1px solid #b8ebe5;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #008f84;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+/* ─── Empty state ─────────────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #9aaba0;
+}
+
+.empty-state p {
+  font-size: 1rem;
+  margin-bottom: 14px;
+}
+
+.clear-search-btn {
+  background: none;
+  border: 1.5px solid #00c1b2;
+  color: #00c1b2;
+  padding: 8px 20px;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.clear-search-btn:hover {
+  background: #00c1b2;
+  color: white;
+}
+
 .dish-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
