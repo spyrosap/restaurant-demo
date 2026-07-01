@@ -243,6 +243,12 @@ body {
   flex: 1;
 }
 
+.dish-calories {
+  font-size: 0.75rem;
+  color: #9aaba0;
+  font-weight: 600;
+}
+
 .dish-footer {
   display: flex;
   align-items: center;

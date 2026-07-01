@@ -66,6 +66,7 @@ export default function Menu({
               <div className="dish-info">
                 <h3>{dish.name}</h3>
                 <p>{dish.description}</p>
+                <span className="dish-calories">~{dish.calories} kcal</span>
                 <div className="dish-footer">
                   <span className="dish-price">€{dish.price.toFixed(2)}</span>
                   <button className="add-btn" onClick={() => onAddToCart(dish)}>
