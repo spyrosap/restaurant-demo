@@ -741,3 +741,159 @@ body {
   color: #9aaba0;
   margin-bottom: 8px;
 }
+
+/* ─── Concierge ──────────────────────────────────────────── */
+.concierge-wrap {
+  background: #1a271f;
+  padding: 16px 32px;
+}
+
+.concierge-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #243329;
+  border: 1px solid #2e4038;
+  border-radius: 12px;
+  padding: 10px 14px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.concierge-icon {
+  font-size: 1rem;
+  color: #00c1b2;
+  flex-shrink: 0;
+}
+
+.concierge-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 0.9rem;
+  color: #e8f0ec;
+  font-family: inherit;
+}
+
+.concierge-input::placeholder {
+  color: #5a7a68;
+}
+
+.concierge-btn {
+  background: #00c1b2;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.concierge-btn:hover {
+  background: #00a89a;
+}
+
+.concierge-empty {
+  max-width: 860px;
+  margin: 10px auto 0;
+  font-size: 0.82rem;
+  color: #7a9a88;
+}
+
+.concierge-preview {
+  max-width: 860px;
+  margin: 12px auto 0;
+  background: #243329;
+  border: 1px solid #2e4038;
+  border-radius: 12px;
+  padding: 14px 18px;
+}
+
+.concierge-preview-title {
+  font-size: 0.85rem;
+  color: #9abaaa;
+  margin-bottom: 10px;
+}
+
+.concierge-preview-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+.concierge-preview-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  color: #e8f0ec;
+  padding: 5px 0;
+  border-bottom: 1px solid #2e4038;
+}
+
+.concierge-preview-item:last-child {
+  border-bottom: none;
+}
+
+.concierge-preview-price {
+  font-weight: 700;
+  color: #00c1b2;
+}
+
+.concierge-qty {
+  font-size: 0.75rem;
+  color: #7a9a88;
+  margin-left: 4px;
+}
+
+.concierge-preview-total {
+  font-size: 0.875rem;
+  color: #9abaaa;
+  text-align: right;
+  margin-bottom: 12px;
+}
+
+.concierge-preview-total strong {
+  color: #e8f0ec;
+}
+
+.concierge-preview-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.concierge-cancel {
+  background: transparent;
+  border: 1px solid #2e4038;
+  color: #7a9a88;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.concierge-cancel:hover {
+  border-color: #5a7a68;
+}
+
+.concierge-confirm {
+  background: #00c1b2;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.concierge-confirm:hover {
+  background: #00a89a;
+}

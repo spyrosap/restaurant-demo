@@ -3,6 +3,7 @@ import { dishes, deliveryInfo } from "./data";
 import Menu from "./components/Menu";
 import Cart from "./components/Cart";
 import PaymentModal from "./components/PaymentModal";
+import ConciergeBar from "./components/ConciergeBar";
 import "./App.css";
 
 export default function App() {
@@ -11,14 +12,23 @@ export default function App() {
   const [showPayment, setShowPayment] = useState(false);
 
   function addToCart(dish) {
-    setCart((prev) => [...prev, { ...dish, quantity: 1 }]);
+    const existing = cart.find((item) => item.id === dish.id);
+    if (existing) {
+      setCart(cart.map((item) => item.id === dish.id ? { ...item, quantity: item.quantity + 1 } : item));
+    } else {
+      setCart([...cart, { ...dish, quantity: 1 }]);
+    }
   }
 
   function removeFromCart(id) {
     setCart(cart.filter((item) => item.id !== id));
   }
 
-  const cartCount = cart.length;
+  function fillCart(items) {
+    setCart(items);
+  }
+
+  const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <div className="app">
@@ -37,6 +47,8 @@ export default function App() {
           {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
         </div>
       </header>
+
+      <ConciergeBar onFillCart={fillCart} />
 
       <main className="app-main">
         <Menu

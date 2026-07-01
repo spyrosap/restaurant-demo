@@ -5,8 +5,8 @@ function generateOrderNumber() {
 }
 
 export default function PaymentModal({ cart, onClose, onSuccess }) {
-  const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
-  const tax = subtotal * 0.2;
+  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const tax = subtotal * 0.10;
   const total = subtotal + tax;
 
   const [step, setStep] = useState("summary");
@@ -72,7 +72,7 @@ export default function PaymentModal({ cart, onClose, onSuccess }) {
                 <span>Subtotal</span><span>€{subtotal.toFixed(2)}</span>
               </div>
               <div className="modal-totals-row">
-                <span>Tax (20%)</span><span>€{tax.toFixed(2)}</span>
+                <span>Tax (10%)</span><span>€{tax.toFixed(2)}</span>
               </div>
               <div className="modal-totals-row modal-totals-total">
                 <span>Total</span><span>€{total.toFixed(2)}</span>
