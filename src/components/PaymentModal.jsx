@@ -4,45 +4,21 @@ function generateOrderNumber() {
   return "DL-" + Math.floor(10000 + Math.random() * 90000);
 }
 
-function buildGuestBreakdown(cart, guests) {
-  const groups = guests.map((guest) => {
-    const items = cart.filter((item) => item.guestId === guest.id);
-    const guestSubtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    return { id: guest.id, name: guest.name, items, total: guestSubtotal * 1.1 };
-  });
-  const unassignedItems = cart.filter((item) => item.guestId == null);
-  if (unassignedItems.length > 0) {
-    const unassignedSubtotal = unassignedItems.reduce(
-      (sum, item) => sum + item.price * item.quantity,
-      0
-    );
-    groups.push({ id: "unassigned", name: "Non assigné", items: unassignedItems, total: unassignedSubtotal * 1.1 });
-  }
-  return groups;
-}
-
-export default function PaymentModal({ cart, guests, paymentMode, onClose, onTrackOrder }) {
-  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const tax = subtotal * 0.10;
+export default function PaymentModal({ cart, onClose, onSuccess }) {
+  const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+  const tax = subtotal * 0.2;
   const total = subtotal + tax;
-  const isSplit = paymentMode === "split";
-  const guestBreakdown = isSplit ? buildGuestBreakdown(cart, guests) : [];
 
   const [step, setStep] = useState("summary");
   const [orderNumber] = useState(generateOrderNumber);
+  const [orderTime] = useState(() => new Date());
   const [form, setForm] = useState({ name: "", number: "", expiry: "", cvv: "" });
 
   useEffect(() => {
     if (step !== "processing") return;
-    const timer = setTimeout(() => {
-      onTrackOrder({
-        orderNumber,
-        items: cart.map((item) => ({ ...item })),
-        total,
-      });
-    }, 2000);
+    const timer = setTimeout(() => setStep("success"), 2000);
     return () => clearTimeout(timer);
-  }, [step, onTrackOrder, cart, orderNumber, total]);
+  }, [step]);
 
   function handleOverlayClick() {
     if (step !== "processing") onClose();
@@ -66,6 +42,14 @@ export default function PaymentModal({ cart, guests, paymentMode, onClose, onTra
     form.expiry.length === 5 &&
     form.cvv.length >= 3;
 
+  const formattedTime = orderTime.toLocaleString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
   return (
     <div className="modal-overlay" onClick={handleOverlayClick}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
@@ -73,45 +57,22 @@ export default function PaymentModal({ cart, guests, paymentMode, onClose, onTra
         {step === "summary" && (
           <div className="modal-step">
             <h2 className="modal-title">Order Summary</h2>
-            {isSplit ? (
-              <div className="guest-breakdown">
-                {guestBreakdown.map((group) => (
-                  <div key={group.id} className="guest-breakdown-group">
-                    <div className="guest-breakdown-header">
-                      <span>{group.name}</span>
-                      <span>€{group.total.toFixed(2)}</span>
-                    </div>
-                    <ul className="modal-item-list">
-                      {group.items.map((item) => (
-                        <li key={item.id} className="modal-item-row">
-                          <span className="modal-item-emoji">{item.emoji}</span>
-                          <span className="modal-item-name">{item.name}</span>
-                          <span className="modal-item-qty">x{item.quantity}</span>
-                          <span className="modal-item-price">€{(item.price * item.quantity).toFixed(2)}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <ul className="modal-item-list">
-                {cart.map((item) => (
-                  <li key={item.id} className="modal-item-row">
-                    <span className="modal-item-emoji">{item.emoji}</span>
-                    <span className="modal-item-name">{item.name}</span>
-                    <span className="modal-item-qty">x{item.quantity}</span>
-                    <span className="modal-item-price">€{(item.price * item.quantity).toFixed(2)}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
+            <ul className="modal-item-list">
+              {cart.map((item, i) => (
+                <li key={i} className="modal-item-row">
+                  <span className="modal-item-emoji">{item.emoji}</span>
+                  <span className="modal-item-name">{item.name}</span>
+                  <span className="modal-item-qty">x{item.quantity}</span>
+                  <span className="modal-item-price">€{(item.price * item.quantity).toFixed(2)}</span>
+                </li>
+              ))}
+            </ul>
             <div className="modal-totals">
               <div className="modal-totals-row">
                 <span>Subtotal</span><span>€{subtotal.toFixed(2)}</span>
               </div>
               <div className="modal-totals-row">
-                <span>Tax (10%)</span><span>€{tax.toFixed(2)}</span>
+                <span>Tax (20%)</span><span>€{tax.toFixed(2)}</span>
               </div>
               <div className="modal-totals-row modal-totals-total">
                 <span>Total</span><span>€{total.toFixed(2)}</span>
@@ -195,6 +156,32 @@ export default function PaymentModal({ cart, guests, paymentMode, onClose, onTra
             <div className="spinner" />
             <p className="processing-title">Processing your payment…</p>
             <p className="processing-subtitle">Please do not close this window.</p>
+          </div>
+        )}
+
+        {step === "success" && (
+          <div className="modal-step modal-step-centered">
+            <div className="success-icon">✓</div>
+            <h2 className="success-title">Payment Successful!</h2>
+            <p className="success-meta">Order {orderNumber} · {formattedTime}</p>
+            <ul className="modal-item-list modal-item-list--receipt">
+              {cart.map((item, i) => (
+                <li key={i} className="modal-item-row">
+                  <span className="modal-item-emoji">{item.emoji}</span>
+                  <span className="modal-item-name">{item.name}</span>
+                  <span className="modal-item-qty">x{item.quantity}</span>
+                  <span className="modal-item-price">€{(item.price * item.quantity).toFixed(2)}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="modal-totals">
+              <div className="modal-totals-row modal-totals-total">
+                <span>Total paid</span><span>€{total.toFixed(2)}</span>
+              </div>
+            </div>
+            <button className="modal-btn-primary modal-btn-full" onClick={onSuccess}>
+              Start New Order
+            </button>
           </div>
         )}
 
