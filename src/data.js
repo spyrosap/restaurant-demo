@@ -3,6 +3,10 @@ export const deliveryInfo = {
   etaMax: 35, // average delivery estimate, in minutes
 };
 
+export const TAX_RATE = 0.1;
+export const deliveryFee = 2.9;
+export const MAX_GROUP_PARTICIPANTS = 8;
+
 export const dishes = [
   { id: 1, name: "Bruschetta", description: "Toasted bread with tomatoes, garlic and fresh basil", price: 6.5, category: "Starters", emoji: "🍞" },
   { id: 2, name: "Soup of the Day", description: "Ask your waiter for today's homemade soup", price: 5.0, category: "Starters", emoji: "🍲" },

@@ -627,3 +627,248 @@ body {
   color: #9aaba0;
   margin-bottom: 8px;
 }
+
+/* ─── Group order (Split Bill) ────────────────────────── */
+.cart-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.group-order-btn {
+  padding: 6px 12px;
+  background: white;
+  color: #1a271f;
+  border: 1.5px solid #d8d4cf;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.15s;
+  white-space: nowrap;
+}
+
+.group-order-btn:hover {
+  border-color: #00c1b2;
+  color: #00c1b2;
+}
+
+.guest-chip-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.guest-chip {
+  padding: 4px 10px;
+  background: #e6faf8;
+  border: 1px solid #b8ebe5;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #008f84;
+}
+
+.assign-select {
+  margin-top: 4px;
+  padding: 3px 6px;
+  border: 1px solid #d8d4cf;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  color: #1a271f;
+  background: white;
+  max-width: 100%;
+}
+
+/* Guest manager modal */
+.guest-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.guest-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.guest-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1a271f;
+}
+
+.guest-edit-input {
+  flex: 1;
+}
+
+.guest-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.guest-action-btn {
+  background: none;
+  border: none;
+  color: #9aaba0;
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.guest-action-btn:hover {
+  color: #00c1b2;
+}
+
+.guest-remove-btn:hover {
+  color: #e03030;
+}
+
+.guest-add-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.guest-add-row .card-input {
+  flex: 1;
+}
+
+.guest-error {
+  color: #e03030;
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+}
+
+.guest-limit-note {
+  color: #9aaba0;
+  font-size: 0.75rem;
+  margin-bottom: 16px;
+}
+
+/* Split review modal */
+.split-review-modal {
+  max-width: 640px;
+}
+
+.split-table {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.split-table-header {
+  display: grid;
+  grid-template-columns: 1.1fr 1.6fr 0.8fr 0.7fr 0.8fr 0.8fr;
+  gap: 8px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: #9aaba0;
+  border-bottom: 1px solid #ede9e4;
+  padding-bottom: 8px;
+}
+
+.split-table-row {
+  display: grid;
+  grid-template-columns: 1.1fr 1.6fr 0.8fr 0.7fr 0.8fr 0.8fr;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: #1a271f;
+  align-items: start;
+}
+
+.split-guest-name {
+  font-weight: 700;
+}
+
+.split-guest-items {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.75rem;
+  color: #6b7c71;
+}
+
+.split-guest-total {
+  font-weight: 800;
+}
+
+/* Guest invoices (post-payment) */
+.guest-invoices {
+  width: 100%;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.guest-invoices-title {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #1a271f;
+  text-align: left;
+}
+
+.guest-invoice-card {
+  width: 100%;
+  text-align: left;
+  background: #f8f4ef;
+  border: 1px solid #ede9e4;
+  border-radius: 8px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.guest-invoice-card:hover {
+  border-color: #00c1b2;
+}
+
+.guest-invoice-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.guest-invoice-name {
+  font-weight: 700;
+  color: #1a271f;
+  font-size: 0.875rem;
+}
+
+.guest-invoice-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #008f84;
+  background: #e6faf8;
+  border: 1px solid #b8ebe5;
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+
+.guest-invoice-items {
+  list-style: none;
+  font-size: 0.75rem;
+  color: #6b7c71;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 6px;
+}
+
+.guest-invoice-amount {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #1a271f;
+}
