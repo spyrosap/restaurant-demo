@@ -14,8 +14,8 @@ export default function App() {
     setCart([...cart, { ...dish, quantity: 1 }]);
   }
 
-  function removeFromCart(id) {
-    setCart(cart.filter((item) => item.id === id));
+  function removeFromCart(index) {
+    setCart(cart.filter((_, i) => i !== index));
   }
 
   const cartCount = cart.length;
