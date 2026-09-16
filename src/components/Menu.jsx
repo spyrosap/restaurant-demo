@@ -1,7 +1,10 @@
 const CATEGORIES = ["All", "Starters", "Mains", "Desserts"];
 
 export default function Menu({ dishes, selectedCategory, onCategoryChange, onAddToCart }) {
-  const filteredDishes = dishes;
+  const filteredDishes =
+    selectedCategory === "All"
+      ? dishes
+      : dishes.filter((dish) => dish.category === selectedCategory);
 
   return (
     <section className="menu">
