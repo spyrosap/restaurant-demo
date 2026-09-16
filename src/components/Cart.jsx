@@ -1,12 +1,26 @@
-export default function Cart({ cart, onRemove, onCheckout }) {
+export default function Cart({ cart, guests, onRemove, onAssignItem, onOpenGuestManager, onCheckout }) {
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const tax = subtotal * 0.10;
   const total = subtotal + tax;
+  const isGroupOrder = guests.length > 1;
 
   return (
     <aside className="cart">
-      <h2>Your Order</h2>
+      <div className="cart-header-row">
+        <h2>Your Order</h2>
+        <button type="button" className="group-order-btn" onClick={onOpenGuestManager}>
+          👥 {isGroupOrder ? `Groupe (${guests.length})` : "Commande de groupe"}
+        </button>
+      </div>
+
+      {isGroupOrder && (
+        <ul className="guest-chip-list">
+          {guests.map((guest) => (
+            <li key={guest.id} className="guest-chip">{guest.name}</li>
+          ))}
+        </ul>
+      )}
 
       {cart.length === 0 ? (
         <p className="cart-empty">No items yet.</p>
@@ -18,6 +32,18 @@ export default function Cart({ cart, onRemove, onCheckout }) {
               <div className="cart-item-details">
                 <span className="cart-item-name">{item.name}</span>
                 <span className="cart-item-qty">x{item.quantity}</span>
+                {isGroupOrder && (
+                  <select
+                    className="assign-select"
+                    value={item.assignedTo}
+                    onChange={(e) => onAssignItem(item.id, e.target.value)}
+                  >
+                    {guests.map((guest) => (
+                      <option key={guest.id} value={guest.id}>{guest.name}</option>
+                    ))}
+                    <option value="shared">Partagé équitablement</option>
+                  </select>
+                )}
               </div>
               <span className="cart-item-price">€{(item.price * item.quantity).toFixed(2)}</span>
               <button className="remove-btn" onClick={() => onRemove(item.id)}>✕</button>
@@ -46,7 +72,7 @@ export default function Cart({ cart, onRemove, onCheckout }) {
         disabled={cart.length === 0}
         onClick={onCheckout}
       >
-        Place Order
+        {isGroupOrder ? "Voir la répartition" : "Place Order"}
       </button>
     </aside>
   );
