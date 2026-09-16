@@ -1,7 +1,9 @@
+import { TAX_RATE } from "../data";
+
 export default function Cart({ cart, onRemove, onCheckout }) {
   const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
 
-  const tax = subtotal * 0.20;
+  const tax = subtotal * TAX_RATE;
   const total = subtotal + tax;
 
   return (
@@ -32,7 +34,7 @@ export default function Cart({ cart, onRemove, onCheckout }) {
           <span>€{subtotal.toFixed(2)}</span>
         </div>
         <div className="cart-totals-row">
-          <span>Tax (10%)</span>
+          <span>Tax ({Math.round(TAX_RATE * 100)}%)</span>
           <span>€{tax.toFixed(2)}</span>
         </div>
         <div className="cart-totals-row total">
