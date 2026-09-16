@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
+import { TAX_RATE } from "../data";
 
 function generateOrderNumber() {
   return "DL-" + Math.floor(10000 + Math.random() * 90000);
 }
 
 export default function PaymentModal({ cart, onClose, onSuccess }) {
-  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const tax = subtotal * 0.1;
+  const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+  const tax = subtotal * TAX_RATE;
   const total = subtotal + tax;
 
   const [step, setStep] = useState("summary");
@@ -72,7 +73,7 @@ export default function PaymentModal({ cart, onClose, onSuccess }) {
                 <span>Subtotal</span><span>€{subtotal.toFixed(2)}</span>
               </div>
               <div className="modal-totals-row">
-                <span>Tax (10%)</span><span>€{tax.toFixed(2)}</span>
+                <span>Tax ({Math.round(TAX_RATE * 100)}%)</span><span>€{tax.toFixed(2)}</span>
               </div>
               <div className="modal-totals-row modal-totals-total">
                 <span>Total</span><span>€{total.toFixed(2)}</span>
@@ -175,6 +176,12 @@ export default function PaymentModal({ cart, onClose, onSuccess }) {
               ))}
             </ul>
             <div className="modal-totals">
+              <div className="modal-totals-row">
+                <span>Subtotal</span><span>€{subtotal.toFixed(2)}</span>
+              </div>
+              <div className="modal-totals-row">
+                <span>Tax ({Math.round(TAX_RATE * 100)}%)</span><span>€{tax.toFixed(2)}</span>
+              </div>
               <div className="modal-totals-row modal-totals-total">
                 <span>Total paid</span><span>€{total.toFixed(2)}</span>
               </div>
