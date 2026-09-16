@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { dishes, deliveryInfo } from "./data";
+import { createOrder, saveActiveOrder, loadActiveOrder, clearActiveOrder } from "./orderTracking";
 import Menu from "./components/Menu";
 import Cart from "./components/Cart";
 import PaymentModal from "./components/PaymentModal";
+import OrderTracking from "./components/OrderTracking";
 import "./App.css";
 
 export default function App() {
   const [cart, setCart] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [showPayment, setShowPayment] = useState(false);
+  const [activeOrder, setActiveOrder] = useState(() => loadActiveOrder());
 
   function addToCart(dish) {
     setCart([...cart, { ...dish, quantity: 1 }]);
@@ -16,6 +19,19 @@ export default function App() {
 
   function removeFromCart(id) {
     setCart(cart.filter((item) => item.id === id));
+  }
+
+  function handlePaymentConfirmed({ items, total }) {
+    const order = createOrder({ items, total }, deliveryInfo);
+    saveActiveOrder(order);
+    setActiveOrder(order);
+    setCart([]);
+    setShowPayment(false);
+  }
+
+  function handleFinishOrder() {
+    clearActiveOrder();
+    setActiveOrder(null);
   }
 
   const cartCount = cart.length;
@@ -32,27 +48,35 @@ export default function App() {
             Delivery in {deliveryInfo.etaMin}–{deliveryInfo.etaMax} min
           </span>
         </div>
-        <div className="cart-badge-wrapper">
-          <span className="cart-icon">🛒</span>
-          {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
-        </div>
+        {!activeOrder && (
+          <div className="cart-badge-wrapper">
+            <span className="cart-icon">🛒</span>
+            {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+          </div>
+        )}
       </header>
 
-      <main className="app-main">
-        <Menu
-          dishes={dishes}
-          selectedCategory={selectedCategory}
-          onCategoryChange={setSelectedCategory}
-          onAddToCart={addToCart}
-        />
-        <Cart cart={cart} onRemove={removeFromCart} onCheckout={() => setShowPayment(true)} />
-      </main>
-      {showPayment && (
-        <PaymentModal
-          cart={cart}
-          onClose={() => setShowPayment(false)}
-          onSuccess={() => { setCart([]); setShowPayment(false); }}
-        />
+      {activeOrder ? (
+        <OrderTracking order={activeOrder} onFinish={handleFinishOrder} />
+      ) : (
+        <>
+          <main className="app-main">
+            <Menu
+              dishes={dishes}
+              selectedCategory={selectedCategory}
+              onCategoryChange={setSelectedCategory}
+              onAddToCart={addToCart}
+            />
+            <Cart cart={cart} onRemove={removeFromCart} onCheckout={() => setShowPayment(true)} />
+          </main>
+          {showPayment && (
+            <PaymentModal
+              cart={cart}
+              onClose={() => setShowPayment(false)}
+              onPaymentConfirmed={handlePaymentConfirmed}
+            />
+          )}
+        </>
       )}
     </div>
   );

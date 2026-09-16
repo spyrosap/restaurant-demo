@@ -627,3 +627,132 @@ body {
   color: #9aaba0;
   margin-bottom: 8px;
 }
+
+/* ─── Order tracking ──────────────────────────────────── */
+.tracking-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 64px);
+  padding: 32px 16px;
+}
+
+.tracking-card {
+  width: 100%;
+  max-width: 480px;
+  background: white;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 20px 60px rgba(26, 39, 31, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.tracking-order-meta {
+  font-size: 0.8rem;
+  color: #9aaba0;
+  margin-bottom: 16px;
+}
+
+.tracking-eta {
+  margin-bottom: 16px;
+}
+
+.tracking-eta-value {
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #1a271f;
+}
+
+.tracking-progress {
+  width: 100%;
+  height: 8px;
+  background: #ede9e4;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.tracking-progress-fill {
+  height: 100%;
+  background: #00c1b2;
+  border-radius: 999px;
+  transition: width 1s linear;
+}
+
+.tracking-timeline {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.tracking-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tracking-step-marker {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 800;
+  background: #ede9e4;
+  color: #9aaba0;
+}
+
+.tracking-step-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #9aaba0;
+}
+
+.tracking-step--completed .tracking-step-marker {
+  background: #00c1b2;
+  color: white;
+}
+
+.tracking-step--completed .tracking-step-label {
+  color: #6b7c71;
+}
+
+.tracking-step--active .tracking-step-marker {
+  background: #e6faf8;
+  color: #00c1b2;
+  box-shadow: 0 0 0 3px rgba(0, 193, 178, 0.18);
+}
+
+.tracking-step--active .tracking-step-label {
+  color: #1a271f;
+  font-weight: 800;
+}
+
+.tracking-message {
+  font-size: 0.875rem;
+  color: #6b7c71;
+  margin-bottom: 24px;
+}
+
+.tracking-receipt {
+  border-top: 1px solid #ede9e4;
+  padding-top: 20px;
+  width: 100%;
+  text-align: left;
+}
+
+.tracking-actions {
+  width: 100%;
+  margin-top: 8px;
+}
