@@ -6,4 +6,9 @@ export default defineConfig({
   plugins: [react()],
   // GitHub Pages serves this app under /restaurant-demo/, Vercel serves it at the domain root.
   base: process.env.VERCEL ? '/' : '/restaurant-demo/',
+  test: {
+    environment: 'jsdom',
+    globals: true,
+    setupFiles: './src/test-setup.js',
+  },
 })
