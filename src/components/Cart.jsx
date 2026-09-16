@@ -20,7 +20,7 @@ export default function Cart({ cart, onRemove, onCheckout }) {
                 <span className="cart-item-qty">x{item.quantity}</span>
               </div>
               <span className="cart-item-price">€{(item.price * item.quantity).toFixed(2)}</span>
-              <button className="remove-btn" onClick={() => onRemove()}>✕</button>
+              <button className="remove-btn" onClick={() => onRemove(index)}>✕</button>
             </li>
           ))}
         </ul>
