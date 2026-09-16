@@ -11,14 +11,31 @@ export default function App() {
   const [showPayment, setShowPayment] = useState(false);
 
   function addToCart(dish) {
-    setCart([...cart, { ...dish, quantity: 1 }]);
+    const existing = cart.find((item) => item.id === dish.id);
+    if (existing) {
+      setCart(
+        cart.map((item) =>
+          item.id === dish.id ? { ...item, quantity: item.quantity + 1 } : item
+        )
+      );
+    } else {
+      setCart([...cart, { ...dish, quantity: 1 }]);
+    }
   }
 
   function removeFromCart(id) {
-    setCart(cart.filter((item) => item.id === id));
+    setCart(cart.filter((item) => item.id !== id));
   }
 
-  const cartCount = cart.length;
+  function updateQuantity(id, quantity) {
+    if (quantity <= 0) {
+      removeFromCart(id);
+      return;
+    }
+    setCart(cart.map((item) => (item.id === id ? { ...item, quantity } : item)));
+  }
+
+  const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <div className="app">
@@ -45,7 +62,12 @@ export default function App() {
           onCategoryChange={setSelectedCategory}
           onAddToCart={addToCart}
         />
-        <Cart cart={cart} onRemove={removeFromCart} onCheckout={() => setShowPayment(true)} />
+        <Cart
+          cart={cart}
+          onRemove={removeFromCart}
+          onUpdateQuantity={updateQuantity}
+          onCheckout={() => setShowPayment(true)}
+        />
       </main>
       {showPayment && (
         <PaymentModal

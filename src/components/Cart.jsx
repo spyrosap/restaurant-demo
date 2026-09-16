@@ -1,5 +1,5 @@
-export default function Cart({ cart, onRemove, onCheckout }) {
-  const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+export default function Cart({ cart, onRemove, onUpdateQuantity, onCheckout }) {
+  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const tax = subtotal * 0.20;
   const total = subtotal + tax;
@@ -12,15 +12,29 @@ export default function Cart({ cart, onRemove, onCheckout }) {
         <p className="cart-empty">No items yet.</p>
       ) : (
         <ul className="cart-list">
-          {cart.map((item, index) => (
-            <li key={index} className="cart-item">
+          {cart.map((item) => (
+            <li key={item.id} className="cart-item">
               <span className="cart-item-emoji">{item.emoji}</span>
               <div className="cart-item-details">
                 <span className="cart-item-name">{item.name}</span>
-                <span className="cart-item-qty">x{item.quantity}</span>
+                <div className="cart-item-qty-controls">
+                  <button
+                    className="qty-btn"
+                    onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
+                  >
+                    −
+                  </button>
+                  <span className="cart-item-qty">{item.quantity}</span>
+                  <button
+                    className="qty-btn"
+                    onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
+                  >
+                    +
+                  </button>
+                </div>
               </div>
               <span className="cart-item-price">€{(item.price * item.quantity).toFixed(2)}</span>
-              <button className="remove-btn" onClick={() => onRemove()}>✕</button>
+              <button className="remove-btn" onClick={() => onRemove(item.id)}>✕</button>
             </li>
           ))}
         </ul>
