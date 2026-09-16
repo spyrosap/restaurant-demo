@@ -9,6 +9,7 @@ export default function App() {
   const [cart, setCart] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [showPayment, setShowPayment] = useState(false);
+  const [showCart, setShowCart] = useState(true);
 
   function addToCart(dish) {
     setCart((prev) => {
@@ -40,7 +41,12 @@ export default function App() {
             Delivery in {deliveryInfo.etaMin}–{deliveryInfo.etaMax} min
           </span>
         </div>
-        <div className="cart-badge-wrapper">
+        <div
+          className="cart-badge-wrapper"
+          onClick={() => setShowCart(!showCart)}
+          role="button"
+          aria-label={showCart ? "Close cart" : "Open cart"}
+        >
           <span className="cart-icon">🛒</span>
           {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
         </div>
@@ -53,7 +59,9 @@ export default function App() {
           onCategoryChange={setSelectedCategory}
           onAddToCart={addToCart}
         />
-        <Cart cart={cart} onRemove={removeFromCart} onCheckout={() => setShowPayment(true)} />
+        {showCart && (
+          <Cart cart={cart} onRemove={removeFromCart} onCheckout={() => setShowPayment(true)} />
+        )}
       </main>
       {showPayment && (
         <PaymentModal

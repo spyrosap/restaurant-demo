@@ -100,8 +100,10 @@ body {
 /* ─── Menu ────────────────────────────────────────────── */
 .menu {
   flex: 1;
+  min-width: 0;
   padding: 32px 40px;
   overflow-y: auto;
+  overflow-x: auto;
 }
 
 .menu h2 {
@@ -116,7 +118,8 @@ body {
   display: flex;
   gap: 8px;
   margin-bottom: 28px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow-x: auto;
 }
 
 .filter-btn {
@@ -125,6 +128,8 @@ body {
   border-radius: 4px;
   background: white;
   font-size: 0.875rem;
+  flex-shrink: 0;
+  white-space: nowrap;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.15s;
