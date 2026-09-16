@@ -11,7 +11,15 @@ export default function App() {
   const [showPayment, setShowPayment] = useState(false);
 
   function addToCart(dish) {
-    setCart([...cart, { ...dish, quantity: 1 }]);
+    setCart((current) => {
+      const existing = current.find((item) => item.id === dish.id);
+      if (existing) {
+        return current.map((item) =>
+          item.id === dish.id ? { ...item, quantity: item.quantity + 1 } : item
+        );
+      }
+      return [...current, { ...dish, quantity: 1 }];
+    });
   }
 
   function removeFromCart(id) {
