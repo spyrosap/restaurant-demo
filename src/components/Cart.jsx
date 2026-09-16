@@ -1,7 +1,7 @@
 import { TAX_RATE } from "../data";
 
 export default function Cart({ cart, onRemove, onCheckout }) {
-  const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const tax = subtotal * TAX_RATE;
   const total = subtotal + tax;
@@ -22,7 +22,7 @@ export default function Cart({ cart, onRemove, onCheckout }) {
                 <span className="cart-item-qty">x{item.quantity}</span>
               </div>
               <span className="cart-item-price">€{(item.price * item.quantity).toFixed(2)}</span>
-              <button className="remove-btn" onClick={() => onRemove()}>✕</button>
+              <button className="remove-btn" onClick={() => onRemove(item.id)}>✕</button>
             </li>
           ))}
         </ul>

@@ -11,11 +11,19 @@ export default function App() {
   const [showPayment, setShowPayment] = useState(false);
 
   function addToCart(dish) {
-    setCart([...cart, { ...dish, quantity: 1 }]);
+    setCart((prev) => {
+      const existing = prev.find((item) => item.id === dish.id);
+      if (existing) {
+        return prev.map((item) =>
+          item.id === dish.id ? { ...item, quantity: item.quantity + 1 } : item
+        );
+      }
+      return [...prev, { ...dish, quantity: 1 }];
+    });
   }
 
   function removeFromCart(id) {
-    setCart(cart.filter((item) => item.id === id));
+    setCart((prev) => prev.filter((item) => item.id !== id));
   }
 
   const cartCount = cart.length;
