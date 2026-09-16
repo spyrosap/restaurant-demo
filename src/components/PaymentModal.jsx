@@ -175,6 +175,12 @@ export default function PaymentModal({ cart, onClose, onSuccess }) {
               ))}
             </ul>
             <div className="modal-totals">
+              <div className="modal-totals-row">
+                <span>Subtotal</span><span>€{subtotal.toFixed(2)}</span>
+              </div>
+              <div className="modal-totals-row">
+                <span>Tax (20%)</span><span>€{tax.toFixed(2)}</span>
+              </div>
               <div className="modal-totals-row modal-totals-total">
                 <span>Total paid</span><span>€{total.toFixed(2)}</span>
               </div>
