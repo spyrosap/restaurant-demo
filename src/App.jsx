@@ -32,8 +32,10 @@ export default function App() {
     <div className="app">
       <header className="app-header">
         <div style={{display:"flex",alignItems:"center",gap:"12px"}}>
-          <img src={`${import.meta.env.BASE_URL}deliveroo-logo.png`} alt="Deliveroo" height="36" />
-          <h1>roo<span style={{color:"#1a271f"}}>food</span></h1>
+          <span className="logo-crop">
+            <img src={`${import.meta.env.BASE_URL}deliveroo-logo.png`} alt="Deliveroo" />
+          </span>
+          <h1>Deliveroo</h1>
           <span className="delivery-eta">
             <span className="eta-dot" />
             <span className="eta-icon">🛵</span>

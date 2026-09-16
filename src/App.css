@@ -27,6 +27,22 @@ body {
   z-index: 10;
 }
 
+.logo-crop {
+  display: inline-block;
+  width: 88px;
+  height: 28px;
+  overflow: hidden;
+  position: relative;
+}
+
+.logo-crop img {
+  position: absolute;
+  width: 182px;
+  height: auto;
+  left: -48px;
+  top: -66px;
+}
+
 .app-header h1 {
   font-size: 1.25rem;
   font-weight: 800;
