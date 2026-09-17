@@ -41,7 +41,7 @@ export default function Cart({ cart, onRemove, onCheckout, bagType }) {
           </div>
         )}
         <div className="cart-totals-row">
-          <span>Tax (10%)</span>
+          <span>Tax (20%)</span>
           <span>€{tax.toFixed(2)}</span>
         </div>
         <div className="cart-totals-row total">
